@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "med_order")
@@ -17,7 +19,7 @@ public class MedicineOrder {
     @Column(name = "supplier", nullable = false, length = 100)
     private String supplier;
 
-    @Column(name = "ttl_amount", precision = 10, scale = 2)
+    @Column(name = "ttl_amount", precision = 10, scale = 2, nullable = false)
     private BigDecimal totalAmount;
 
     @Column(name = "dt_ordered", nullable = false)
@@ -28,6 +30,9 @@ public class MedicineOrder {
 
     @Column(name = "order_status", nullable = false)
     private String orderStatus;
+
+    @OneToMany(mappedBy = "medicineOrder")
+    private List<MedicineOrderItem> medicineOrderItems = new ArrayList<>();
 
     public MedicineOrder() {}
 
@@ -77,6 +82,14 @@ public class MedicineOrder {
 
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public List<MedicineOrderItem> getMedicineOrderItems() {
+        return medicineOrderItems;
+    }
+
+    public void setMedicineOrderItems(List<MedicineOrderItem> medicineOrderItems) {
+        this.medicineOrderItems = medicineOrderItems;
     }
 }
 
