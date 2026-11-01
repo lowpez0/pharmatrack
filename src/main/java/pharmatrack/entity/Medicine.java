@@ -15,10 +15,10 @@ public class Medicine {
     @Column(name = "medicine_id")
     private Integer medicineId;
 
-    @Column(name = "generic_medicine_name", nullable = false, length = 100)
+    @Column(name = "generic_med_name", nullable = false, length = 100)
     private String genericMedicineName;
 
-    @Column(name = "medicine_brand", nullable = false, length = 100)
+    @Column(name = "med_brand", nullable = false, length = 100)
     private String medicineBrand;
 
     @Column(name = "dosage_form", nullable = false, length = 100)

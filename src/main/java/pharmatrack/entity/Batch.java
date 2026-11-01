@@ -19,10 +19,10 @@ public class Batch {
     @Column(name = "batch_number", nullable = false, length = 100)
     private String batchNumber;
 
-    @Column(name = "batch_number", nullable = false)
+    @Column(name = "qnt_received", nullable = false)
     private int quantityReceived;
 
-    @Column(name = "batch_number", nullable = false)
+    @Column(name = "qnt_remaining", nullable = false)
     private int quantityRemaining;
 
     @Column(name = "supplier", nullable = false, length = 100)
@@ -31,7 +31,7 @@ public class Batch {
     @Column(name = "expiry_date", nullable = false)
     private LocalDate expiryDate;
 
-    @Column(name = "date_received", nullable = false)
+    @Column(name = "dt_received", nullable = false)
     private LocalDate dateReceived;
 
     public Batch() {
