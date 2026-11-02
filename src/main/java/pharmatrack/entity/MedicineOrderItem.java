@@ -67,4 +67,6 @@ public class MedicineOrderItem {
     public void setItemPrice(BigDecimal itemPrice) {
         this.itemPrice = itemPrice;
     }
+
+
 }
