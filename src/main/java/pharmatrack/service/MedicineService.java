@@ -18,7 +18,6 @@ public class MedicineService {
         this.medicineRepo = medicineRepo;
     }
 
-
     public Medicine createMedicine(Medicine medicine) {
 
         if (medicine.getSellingPrice() == null ||
@@ -64,17 +63,6 @@ public class MedicineService {
 
     public Medicine updateMedicine(Integer medicineId, Medicine updatedMedicine) {
         Medicine existingMedicine = getMedicineById(medicineId);
-
-        if (updatedMedicine.getSellingPrice() == null ||
-                updatedMedicine.getSellingPrice().signum() < 0) {
-            throw new IllegalArgumentException("Invalid selling price");
-        }
-
-        if (updatedMedicine.getMinStockLevel() < 0) {
-            throw new IllegalArgumentException(
-                    "Minimum stock level cannot be negative"
-            );
-        }
 
         existingMedicine.setGenericMedicineName(updatedMedicine.getGenericMedicineName());
         existingMedicine.setMedicineBrand(updatedMedicine.getMedicineBrand());
