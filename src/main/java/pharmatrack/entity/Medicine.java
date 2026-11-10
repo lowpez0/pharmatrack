@@ -112,4 +112,9 @@ public class Medicine {
     public void setBatches(List<Batch> batches) {
         this.batches = batches;
     }
+
+    public void addBatch(Batch batch) {
+        batches.add(batch);
+        batch.setMedicine(this);
+    }
 }
