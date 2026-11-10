@@ -56,4 +56,59 @@ public class MedicineService {
                 .orElseThrow(() ->
                         new EntityNotFoundException("Medicine not found"));
     }
+
+    @Transactional(readOnly = true)
+    public List<Medicine> getMedicinesByCategory(String category) {
+        return medicineRepo.findByCategoryIgnoreCase(category);
+    }
+
+    public Medicine updateMedicine(Integer medicineId, Medicine updatedMedicine) {
+        Medicine existingMedicine = getMedicineById(medicineId);
+
+        if (updatedMedicine.getSellingPrice() == null ||
+                updatedMedicine.getSellingPrice().signum() < 0) {
+            throw new IllegalArgumentException("Invalid selling price");
+        }
+
+        if (updatedMedicine.getMinStockLevel() < 0) {
+            throw new IllegalArgumentException(
+                    "Minimum stock level cannot be negative"
+            );
+        }
+
+        existingMedicine.setGenericMedicineName(updatedMedicine.getGenericMedicineName());
+        existingMedicine.setMedicineBrand(updatedMedicine.getMedicineBrand());
+        existingMedicine.setDosageForm(updatedMedicine.getDosageForm());
+        existingMedicine.setStrength(updatedMedicine.getStrength());
+        existingMedicine.setCategory(updatedMedicine.getCategory());
+        existingMedicine.setSellingPrice(updatedMedicine.getSellingPrice());
+        existingMedicine.setMinStockLevel(updatedMedicine.getMinStockLevel());
+
+        return medicineRepo.save(existingMedicine);
+    }
+
+    public void deleteMedicine(Integer medicineId) {
+        Medicine medicine = getMedicineById(medicineId);
+
+        if (!medicine.getBatches().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Cannot delete medicine with existing batches");
+        }
+
+        medicineRepo.delete(medicine);
+    }
+
+    public List<Medicine> searchMedicines(String keyword) {
+        if (keyword == null || keyword.isBlank()) {
+            return List.of();
+        }
+
+        String searchKeyword = keyword.trim();
+
+        return medicineRepo
+                .findByGenericMedicineNameStartingWithIgnoreCaseOrMedicineBrandStartingWithIgnoreCase(
+                        searchKeyword,
+                        searchKeyword
+                );
+    }
 }

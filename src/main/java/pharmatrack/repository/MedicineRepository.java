@@ -12,6 +12,11 @@ public interface MedicineRepository extends JpaRepository<Medicine, Integer> {
 
     List<Medicine> findByGenericMedicineNameContainingIgnoreCase(String name);
 
+    List<Medicine> findByGenericMedicineNameStartingWithIgnoreCaseOrMedicineBrandStartingWithIgnoreCase(
+            String genericMedicineName,
+            String medicineBrand
+    );
+
     boolean existsByGenericMedicineNameAndMedicineBrandAndDosageFormAndStrength(
             String genericMedicineName,
             String medicineBrand,
