@@ -2,6 +2,7 @@ package pharmatrack.service;
 
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pharmatrack.entity.MedicineOrder;
 import pharmatrack.repository.MedicineOrderRepository;
@@ -17,6 +18,7 @@ public class MedicineOrderService {
 
     private final MedicineOrderRepository medicineOrderRepo;
 
+    @Autowired
     public MedicineOrderService(MedicineOrderRepository medicineOrderRepo) {
         this.medicineOrderRepo = medicineOrderRepo;
     }
@@ -30,8 +32,8 @@ public class MedicineOrderService {
     }
 
     @Transactional(readOnly = true)
-    public List<MedicineOrder> getAllMedicineOrderByDateOrderedAsc() {
-        return medicineOrderRepo.findAllByOrderByDateOrderedAsc();
+    public List<MedicineOrder> getAllMedicineOrderByDateOrderedDesc() {
+        return medicineOrderRepo.findAllByOrderByDateOrderedDesc();
     }
 
     @Transactional(readOnly = true)

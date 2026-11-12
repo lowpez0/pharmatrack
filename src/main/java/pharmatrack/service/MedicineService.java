@@ -1,5 +1,6 @@
 package pharmatrack.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pharmatrack.entity.Medicine;
 import pharmatrack.repository.MedicineRepository;
@@ -14,6 +15,7 @@ public class MedicineService {
 
     private final MedicineRepository medicineRepo;
 
+    @Autowired
     public MedicineService(MedicineRepository medicineRepo) {
         this.medicineRepo = medicineRepo;
     }

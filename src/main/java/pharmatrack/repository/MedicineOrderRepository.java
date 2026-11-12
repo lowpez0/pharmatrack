@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface MedicineOrderRepository extends JpaRepository<MedicineOrder, Integer> {
 
-    List<MedicineOrder> findAllByOrderByDateOrderedAsc();
+    List<MedicineOrder> findAllByOrderByDateOrderedDesc();
 
 }

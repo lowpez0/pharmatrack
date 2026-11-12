@@ -2,6 +2,7 @@
 package pharmatrack.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,9 +21,8 @@ public class BatchService {
     private final BatchRepository batchRepository;
     private final MedicineRepository medicineRepository;
 
-    public BatchService(
-            BatchRepository batchRepository,
-            MedicineRepository medicineRepository) {
+    @Autowired
+    public BatchService(BatchRepository batchRepository, MedicineRepository medicineRepository) {
         this.batchRepository = batchRepository;
         this.medicineRepository = medicineRepository;
     }
