@@ -21,10 +21,6 @@ public class MedicineOrderService {
         this.medicineOrderRepo = medicineOrderRepo;
     }
 
-    public MedicineOrderRepository getMedicineOrderRepo() {
-        return medicineOrderRepo;
-    }
-
     public MedicineOrder createMedicineOrder(MedicineOrder medicineOrder) {
         if(medicineOrder.getSupplier().isEmpty()) {
             throw new IllegalArgumentException("Supplier cannot be blank");
@@ -43,6 +39,10 @@ public class MedicineOrderService {
         return medicineOrderRepo.findById(medicineOrderId)
                 .orElseThrow(() ->
                         new EntityNotFoundException("Medicine Order not found"));
+    }
+
+    public void deleteMedicineOrder(Integer medicineOrder) {
+        medicineOrderRepo.delete(getMedicineOrderById(medicineOrder));
     }
 
     public MedicineOrder updateMedicineOrder(Integer medicineOrderId, MedicineOrder updatedMedicineOrder) {
