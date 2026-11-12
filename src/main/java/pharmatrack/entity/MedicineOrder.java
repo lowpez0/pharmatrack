@@ -1,6 +1,7 @@
 package pharmatrack.entity;
 
 import jakarta.persistence.*;
+import pharmatrack.entity.enums.OrderStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -28,8 +29,9 @@ public class MedicineOrder {
     @Column(name = "dt_received")
     private LocalDate dateReceived;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "order_status", nullable = false)
-    private String orderStatus;
+    private OrderStatus orderStatus = OrderStatus.PENDING;
 
     @OneToMany(mappedBy = "medicineOrder")
     private List<MedicineOrderItem> medicineOrderItems = new ArrayList<>();
@@ -76,11 +78,11 @@ public class MedicineOrder {
         this.dateReceived = dateReceived;
     }
 
-    public String getOrderStatus() {
+    public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(String orderStatus) {
+    public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
 
