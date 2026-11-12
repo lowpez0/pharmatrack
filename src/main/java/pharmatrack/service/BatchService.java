@@ -29,7 +29,8 @@ public class BatchService {
 
     public List<Batch> getBatchesByMedicineId(Integer medicineId) {
         return batchRepository
-                .findByMedicine_MedicineIdOrderByExpiryDateAsc(medicineId);
+                .findByMedicine_MedicineIdAndQuantityRemainingGreaterThanAndExpiryDateGreaterThanEqualOrderByExpiryDateAsc(
+                        medicineId, 0, LocalDate.now());
     }
 
     @Transactional
@@ -78,11 +79,39 @@ public class BatchService {
                 break;
             }
         }
-
         if (remainingToDeduct > 0) {
             throw new IllegalStateException(
                     "Insufficient stock for medicine ID: " + medicineId);
         }
+    }
+
+    @Transactional
+    public Batch updateBatch(Integer batchId, Batch updatedBatch) {
+
+        Batch existingBatch = batchRepository.findById(batchId)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Batch not found"));
+
+        // instances when admin incorrectly inputs wrong quantity_received
+        int quantitySold = existingBatch.getQuantityReceived()
+                - existingBatch.getQuantityRemaining();
+
+        int newQuantityReceived = updatedBatch.getQuantityReceived();
+
+        if (newQuantityReceived < quantitySold) {
+            throw new IllegalArgumentException(
+                    "Received quantity cannot be less than the quantity already deducted");
+        }
+
+        existingBatch.setBatchNumber(updatedBatch.getBatchNumber());
+        existingBatch.setSupplier(updatedBatch.getSupplier());
+        existingBatch.setExpiryDate(updatedBatch.getExpiryDate());
+        existingBatch.setDateReceived(updatedBatch.getDateReceived());
+
+        existingBatch.setQuantityReceived(newQuantityReceived);
+        existingBatch.setQuantityRemaining(newQuantityReceived - quantitySold);
+
+        return existingBatch;
     }
 
 
