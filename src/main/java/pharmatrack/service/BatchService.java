@@ -27,6 +27,7 @@ public class BatchService {
         this.medicineRepository = medicineRepository;
     }
 
+    //returns list of batch that have stock greater than 0
     public List<Batch> getBatchesByMedicineId(Integer medicineId) {
         return batchRepository
                 .findByMedicine_MedicineIdAndQuantityRemainingGreaterThanAndExpiryDateGreaterThanEqualOrderByExpiryDateAsc(
